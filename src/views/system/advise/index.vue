@@ -11,10 +11,10 @@
         />
       </el-form-item>
 
-      <el-form-item label="国家" prop="country">
+      <el-form-item label="Country" prop="country">
         <el-input
           v-model="queryParams.country"
-          placeholder="请输入国家"
+          placeholder="Country"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -61,8 +61,8 @@
     </el-row>
 
     <el-table v-loading="loading" :data="adviseList" @selection-change="handleSelectionChange">
-      <el-table-column label="时间" align="center" prop="date" />
-      <el-table-column label="国家" align="center" prop="country" />
+      <el-table-column label="date" align="center" prop="date" />
+      <el-table-column label="country" align="center" prop="country" />
       <el-table-column label="moduleBase" align="center" prop="moduleBase" :show-overflow-tooltip="true" />
       <el-table-column label="moduleSecond" align="center" prop="moduleSecond" :show-overflow-tooltip="true" />
       <el-table-column label="moduleThird" align="center" prop="moduleThird" :show-overflow-tooltip="true" />
@@ -105,14 +105,20 @@
     <!-- 添加或修改【请填写功能名称】对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in statusOptions"
-              :key="dict.dictValue"
-              :label="dict.dictValue"
-            >{{dict.dictLabel}}</el-radio>
-          </el-radio-group>
+<!--        <el-form-item label="状态" prop="status">-->
+<!--          <el-radio-group v-model="form.status">-->
+<!--            <el-radio-->
+<!--              v-for="dict in statusOptions"-->
+<!--              :key="dict.dictValue"-->
+<!--              :label="dict.dictValue"-->
+<!--            >{{dict.dictLabel}}</el-radio>-->
+<!--          </el-radio-group>-->
+<!--        </el-form-item>-->
+
+        <el-form-item label="Status">
+          <el-radio v-model="form.status" :label="0">未处理</el-radio>
+          <el-radio v-model="form.status" :label="1">处理中</el-radio>
+          <el-radio v-model="form.status" :label="2">已处理</el-radio>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
