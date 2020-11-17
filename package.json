@@ -1,8 +1,8 @@
 {
-  "name": "ruoyi",
+  "name": "JULY_YANG",
   "version": "3.2.0",
-  "description": "若依管理系统",
-  "author": "若依",
+  "description": "多科OS-后台管理系统",
+  "author": "JULY_YANG",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",

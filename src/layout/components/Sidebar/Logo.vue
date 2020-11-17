@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系统',
+      title: '多科OS后台管理系统',
       logo: logoImg
     }
   }
