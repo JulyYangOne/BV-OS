@@ -1,241 +1,36 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="88px">
-      <el-form-item label="Brand" prop="brand">
-        <el-input
-          v-model="queryParams.brand"
-          placeholder="brand"
-          clearable
-          size="small"
-        />
-      </el-form-item>
-      <el-form-item label="AreaVersion" prop="areaVersion">
-        <el-input
-          v-model="queryParams.areaVersion"
-          placeholder="areaVersion"
-          clearable
-          size="small"
-        />
-      </el-form-item>
-      <el-form-item label="Country" prop="country">
-        <el-input
-          v-model="queryParams.country"
-          placeholder="Country"
-          clearable
-          size="small"
-        />
-      </el-form-item>
-
-      <el-form-item label="Model" prop="model">
-        <el-input
-          v-model="queryParams.model"
-          placeholder="model"
-          clearable
-          size="small"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-
-        <el-button
-          type="warning"
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:statistics:export']"
-        >导出</el-button>
-      </el-form-item>
-    </el-form>
-    <el-row :gutter="10" class="mb8">
-	  <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
-    <!-- 查看详情-->
-    <Detail  ref="form1"></Detail>
-
-    <el-table v-loading="loading" :data="statisticsList">
-      <el-table-column label="序号" type="index" align="center">
-        <template slot-scope="scope">
-          <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="date" align="center" prop="date" :show-overflow-tooltip="true" />
-      <el-table-column label="brand" align="center" prop="brand" :show-overflow-tooltip="true" />
-      <el-table-column label="country" align="center" prop="country" :show-overflow-tooltip="true" />
-      <el-table-column label="areaVersion" align="center" prop="areaVersion" :show-overflow-tooltip="true" />
-      <el-table-column label="id" align="center" prop="id" :show-overflow-tooltip="true" />
-      <el-table-column label="imei" align="center" prop="imei" :show-overflow-tooltip="true" />
-      <el-table-column label="imsi" align="center" prop="imsi" :show-overflow-tooltip="true" />
-      <el-table-column label="ipAddress" align="center" prop="ipAddress" :show-overflow-tooltip="true" />
-      <el-table-column label="meid" align="center" prop="meid" :show-overflow-tooltip="true" />
-      <el-table-column label="model" align="center" prop="model" :show-overflow-tooltip="true" />
-      <el-table-column label="osVersion" align="center" prop="osVersion" :show-overflow-tooltip="true" />
-      <el-table-column label="romVersion" align="center" prop="romVersion" :show-overflow-tooltip="true" />
-      <el-table-column label="操作" width="200" align="center" fixed="right">
-        <template slot-scope="scope">
-          <el-button
-            size="text"
-            type="primary"
-            @click="handleView(scope.row)"
-          >
-            查看详情
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
-  </div>
+  <el-tabs v-model="activeName" style="padding-left: 8px;" @tab-click="tabClick">
+    <el-tab-pane label="销统列表" name="first">
+      <detailList ref="detail" />
+    </el-tab-pane>
+    <el-tab-pane label="销统报表" name="second">
+      <report ref="report" />
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script>
-import { listStatistics,exportStatistics } from "@/api/system/statistics";
-import Detail from "./detail"
-
-export default {
-  name: "Statistics",
-  components:{
-    Detail
-  },
-  data() {
-    return {
-      // 遮罩层
-      loading: true,
-      // 选中数组
-      ids: [],
-      // 非单个禁用
-      single: true,
-      // 非多个禁用
-      multiple: true,
-      // 显示搜索条件
-      showSearch: true,
-      // 总条数
-      total: 0,
-      // 销统表格数据
-      statisticsList: [],
-      // 弹出层标题
-      title: "",
-      // 是否显示弹出层
-      open: false,
-      // 查询参数
-      queryParams: {
-        pageNum: 1,
-        pageSize: 10,
-        imei: null,
-        romVersion: null,
-        imsi: null,
-        meid: null,
-        ipAddress: null,
-        brand: null,
-        osVersion: null,
-        areaVersion: null,
-        date: null,
-        country: null,
-        uuid: null,
-        model: null
-      },
-
-    };
-  },
-  created() {
-    this.getList();
-  },
-  methods: {
-    /** 查看详情 */
-    handleView(row){
-      const _this = this.$refs.form1
-      _this.form = {
-        areaVersion: row.areaVersion,
-        brand: row.brand,
-        country: row.country,
-        createBy:row.createBy,
-        createTime: row.createTime,
-        date: row.date,
-        id: row.id,
-        imei:row.imei,
-        imsi: row.imsi,
-        ipAddress:row.ipAddress,
-        meid: row.meid,
-        model: row.model,
-        osVersion:row.osVersion,
-        params: row.params,
-        remark:row.remark,
-        romVersion: row.romVersion,
-        searchValue: row.searchValue,
-        updateBy:row.updateBy,
-        updateTime:row.updateTime,
-        userBrand: row.userBrand,
-        userCountry: row.userCountry,
-        userModels: row.userModels,
-        uuid: row.uuid
+  import report from './report/index'
+  import detailList from './detail_list/index'
+  export default {
+    name: 'Storage',
+    components: { report, detailList },
+    data() {
+      return {
+        activeName: 'first'
       }
-
-      _this.dialog = true
     },
-    /** 查询销统列表 */
-    getList() {
-      this.loading = true;
-      listStatistics(this.queryParams).then(response => {
-        this.statisticsList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
-    },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        imei: null,
-        romVersion: null,
-        imsi: null,
-        meid: null,
-        ipAddress: null,
-        brand: null,
-        osVersion: null,
-        areaVersion: null,
-        date: null,
-        country: null,
-        uuid: null,
-        model: null
-      };
-      this.resetForm("form");
-    },
-    /** 搜索按钮操作 */
-    handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
-    },
-    /** 重置按钮操作 */
-    resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
-    },
-
-
-    /** 导出按钮操作 */
-    handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm('是否确认导出所有销统数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return exportStatistics(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-        })
+    methods: {
+      tabClick(name) {
+        if (this.activeName === 'first') {
+          this.$refs.detail.handleQuery()
+        } else {
+          // this.$refs.qiNiu.crud.toQuery()
+        }
+      }
     }
   }
-};
 </script>
+
+<style scoped>
+</style>
