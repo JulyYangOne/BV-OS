@@ -12,15 +12,15 @@
       </el-form-item>
 
       <el-form-item label="Country" prop="country">
-        <el-input
-          v-model="queryParams.country"
-          placeholder="Country"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-select v-model="queryParams.country" filterable placeholder="请选择">
+          <el-option
+            v-for="item in informationObj.countryList"
+            :key="item.countryId"
+            :label="item.countryName"
+            :value="item.countryName"
+          ></el-option>
+        </el-select>
       </el-form-item>
-
       <el-form-item label="Status" prop="status">
         <el-select
           v-model="queryParams.status"
@@ -131,11 +131,14 @@
 
 <script>
 import { listAdvise, getAdvise, delAdvise, addAdvise, updateAdvise, exportAdvise } from "@/api/system/advise";
-
+import { getListInformation } from "@/api/OS/os";
 export default {
   name: "Advise",
   data() {
     return {
+      //品牌 国家 机型
+      informationObj:{
+      },
       // 遮罩层
       loading: true,
       // 选中数组
@@ -184,6 +187,16 @@ export default {
     this.getDicts("advise_status").then(response => {
       this.statusOptions = response.data;
     });
+    /** 国家,品牌,机型数据
+     *  @flag '' 空为全部
+     *  @type  0 空为全部
+     * */
+    getListInformation('',0).then(res => {
+      this.informationObj = res.data
+
+    }).catch(error => {
+      console.log(error)
+    })
   },
   methods: {
     /** 查询【请填写功能名称】列表 */

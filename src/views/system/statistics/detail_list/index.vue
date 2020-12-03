@@ -2,12 +2,14 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="88px">
       <el-form-item label="Brand" prop="brand">
-        <el-input
-          v-model="queryParams.brand"
-          placeholder="brand"
-          clearable
-          size="small"
-        />
+        <el-select v-model="queryParams.brand" filterable placeholder="请选择">
+          <el-option
+            v-for="item in informationObj.brandList"
+            :key="item.brandId"
+            :label="item.brandName"
+            :value="item.brandName"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="AreaVersion" prop="areaVersion">
         <el-input
@@ -18,21 +20,27 @@
         />
       </el-form-item>
       <el-form-item label="Country" prop="country">
-        <el-input
-          v-model="queryParams.country"
-          placeholder="Country"
-          clearable
-          size="small"
-        />
+        <el-select v-model="queryParams.country" filterable placeholder="请选择">
+          <el-option
+            v-for="item in informationObj.countryList"
+            :key="item.countryId"
+            :label="item.countryName"
+            :value="item.countryName"
+          ></el-option>
+        </el-select>
       </el-form-item>
-
       <el-form-item label="Model" prop="model">
-        <el-input
-          v-model="queryParams.model"
-          placeholder="model"
-          clearable
-          size="small"
-        />
+        <el-select v-model="queryParams.model" filterable placeholder="请选择">
+          <el-option
+            v-for="item in informationObj.modelsList"
+            :key="item.modelsId"
+            :label="item.modelsName"
+            :value="item.modelsName"
+          ></el-option>
+        </el-select>
+
+
+
       </el-form-item>
       <el-form-item>
         <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -97,7 +105,7 @@
 <script>
 import { listStatistics,exportStatistics } from "@/api/system/statistics";
 import Detail from "./detail"
-
+import { getListInformation } from "@/api/OS/os";
 export default {
   name: "Statistics",
   components:{
@@ -105,6 +113,9 @@ export default {
   },
   data() {
     return {
+      //品牌 国家 机型
+      informationObj:{
+      },
       // 遮罩层
       loading: true,
       // 选中数组
@@ -145,6 +156,18 @@ export default {
   },
   created() {
     this.getList();
+    /** 国家,品牌,机型数据
+     *  @flag '' 空为全部
+     *  @type  0 空为全部; 1 为权限范围内的
+     * */
+
+    getListInformation('',1).then(res => {
+      this.informationObj = res.data
+      console.log(res.data)
+    }).catch(error => {
+      console.log(error)
+    })
+
   },
   methods: {
     /** 查看详情 */

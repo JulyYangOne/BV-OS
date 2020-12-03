@@ -3,13 +3,15 @@
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
 
 
-      <el-form-item label="国家" prop="keyword">
-        <el-input
-          v-model.trim="queryParams.country"
-          placeholder="国家查询"
-          clearable
-          size="small"
-        />
+      <el-form-item label="Country" prop="country">
+        <el-select v-model="queryParams.country" filterable placeholder="请选择">
+          <el-option
+            v-for="item in informationObj.countryList"
+            :key="item.countryId"
+            :label="item.countryName"
+            :value="item.countryName"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="Email" prop="email">
         <el-input
@@ -136,6 +138,7 @@
 <script>
 import { listBack, getBack, delBack, addBack, updateBack, exportBack } from "@/api/system/back";
 import  Detail from './detail'
+import { getListInformation } from "@/api/OS/os";
 export default {
   name: "Back",
   components:{
@@ -143,6 +146,9 @@ export default {
   },
   data() {
     return {
+      //品牌 国家 机型
+      informationObj:{
+      },
       statusOptions:[],
       // 遮罩层
       loading: true,
@@ -201,6 +207,17 @@ export default {
     this.getDicts("advise_status").then(response => {
       this.statusOptions = response.data;
     });
+    /** 国家,品牌,机型数据
+     *  @flag '' 空为全部
+     *  @type  0 空为全部
+     * */
+
+    getListInformation('',0).then(res => {
+      this.informationObj = res.data
+
+    }).catch(error => {
+      console.log(error)
+    })
   },
   methods: {
     /** 查询用户反馈列表 */

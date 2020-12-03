@@ -12,6 +12,7 @@
 <script>
   import report from './report/index'
   import detailList from './detail_list/index'
+
   export default {
     name: 'Storage',
     components: { report, detailList },

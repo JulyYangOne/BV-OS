@@ -140,6 +140,7 @@
           <el-table-column label="用户昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
           <el-table-column label="部门" align="center" prop="dept.deptName" :show-overflow-tooltip="true" />
           <el-table-column label="手机号码" align="center" prop="phonenumber" width="120" />
+          <el-table-column label="是否存在" align="center" prop="delFlag" width="120" />
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
               <el-switch
@@ -290,6 +291,48 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="国家">
+              <el-select v-model="form.userCountrys" multiple placeholder="请选择">
+                <el-option
+                  v-for="item in informationObj.countryList"
+                  :key="item.countryId"
+                  :label="item.countryName"
+                  :value="item.countryName"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="品牌">
+              <el-select v-model="form.userBrands" multiple placeholder="请选择">
+                <el-option
+                  v-for="item in informationObj.brandList"
+                  :key="item.brandId"
+                  :label="item.brandName"
+                  :value="item.brandName"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="机型">
+              <el-select v-model="form.userModelss" multiple placeholder="请选择">
+                <el-option
+                  v-for="item in informationObj.modelsList"
+                  :key="item.modelsId"
+                  :label="item.modelsName"
+                  :value="item.modelsName"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="备注">
@@ -341,6 +384,7 @@
 import { listUser, getUser, delUser, addUser, updateUser, exportUser, resetUserPwd, changeUserStatus, importTemplate } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import { treeselect } from "@/api/system/dept";
+import { getListInformation } from "@/api/OS/os";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -349,6 +393,9 @@ export default {
   components: { Treeselect },
   data() {
     return {
+      //品牌 国家 机型
+      informationObj:{
+      },
       // 遮罩层
       loading: true,
       // 选中数组
@@ -464,6 +511,18 @@ export default {
     this.getConfigKey("sys.user.initPassword").then(response => {
       this.initPassword = response.msg;
     });
+    /** 国家,品牌,机型数据
+     *  @flag '' 空为全部
+     *  @type  0 空为全部
+     * */
+
+    getListInformation('',0).then(res => {
+    this.informationObj = res.data
+
+    }).catch(error => {
+      console.log(error)
+    })
+
   },
   methods: {
     /** 查询用户列表 */
@@ -507,6 +566,9 @@ export default {
           row.status = row.status === "0" ? "1" : "0";
         });
     },
+    information(){
+
+    },
     // 取消按钮
     cancel() {
       this.open = false;
@@ -526,7 +588,10 @@ export default {
         status: "0",
         remark: undefined,
         postIds: [],
-        roleIds: []
+        roleIds: [],
+        userCountrys: [],
+        userBrands: [],
+        userModelss: [],
       };
       this.resetForm("form");
     },
@@ -566,13 +631,23 @@ export default {
       const userId = row.userId || this.ids;
       getUser(userId).then(response => {
         this.form = response.data;
-        this.postOptions = response.posts;
-        this.roleOptions = response.roles;
-        this.form.postIds = response.postIds;
-        this.form.roleIds = response.roleIds;
-        this.open = true;
-        this.title = "修改用户";
-        this.form.password = "";
+        this.$nextTick(()=> {
+          this.form.userCountrys = this.doArr(response.data.userCountry)
+          this.form.userBrands =  this.doArr(response.data.userBrand)
+          this.form.userModelss =  this.doArr(response.data.userModels)
+
+          this.postOptions = response.posts;
+          this.roleOptions = response.roles;
+
+          this.form.postIds = response.postIds;
+          this.form.roleIds = response.roleIds;
+          this.open = true;
+          this.title = "修改用户";
+          this.form.password = "";
+
+          console.log(this.form)
+        })
+
       });
     },
     /** 重置密码按钮操作 */
@@ -586,23 +661,32 @@ export default {
           });
         }).catch(() => {});
     },
+    /** 字符串转数组 */
+    doArr(str) {
+      return   str = str == null || str == '' ? [] :  str.replace(/'/g,'').split(',')
+    },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.userId != undefined) {
-            updateUser(this.form).then(response => {
-              this.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addUser(this.form).then(response => {
-              this.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
+          this.$nextTick(()=> {
+            if (this.form.userId != undefined) {
+              updateUser(this.form).then(response => {
+                this.msgSuccess("修改成功");
+                this.open = false;
+                this.getList();
+              });
+            } else {
+              addUser(this.form).then(response => {
+                this.msgSuccess("新增成功");
+                this.open = false;
+                this.getList();
+              });
+            }
+          })
+
+
+
         }
       });
     },
