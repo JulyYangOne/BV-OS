@@ -163,7 +163,6 @@ export default {
 
     getListInformation('',1).then(res => {
       this.informationObj = res.data
-      console.log(res.data)
     }).catch(error => {
       console.log(error)
     })

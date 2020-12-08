@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="Email" prop="email">
-        <el-input
-          v-model="queryParams.email"
-          placeholder="Email"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="Brand" prop="brand">
+        <el-select v-model="queryParams.brand" filterable placeholder="请选择">
+          <el-option
+            v-for="item in informationObj.brandList"
+            :key="item.brandId"
+            :label="item.brandName"
+            :value="item.brandName"
+          ></el-option>
+        </el-select>
       </el-form-item>
-
       <el-form-item label="Country" prop="country">
         <el-select v-model="queryParams.country" filterable placeholder="请选择">
           <el-option
@@ -21,13 +21,31 @@
           ></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="Model" prop="model">
+        <el-select v-model="queryParams.model" filterable placeholder="请选择" style="width: 150px">
+          <el-option
+            v-for="item in informationObj.modelsList"
+            :key="item.modelsId"
+            :label="item.modelsName"
+            :value="item.modelsName"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Email" prop="email">
+        <el-input
+          v-model="queryParams.email"
+          placeholder="Email"
+          clearable
+          size="small"
+        />
+      </el-form-item>
       <el-form-item label="Status" prop="status">
         <el-select
           v-model="queryParams.status"
           placeholder="Status"
           clearable
           size="small"
-          style="width: 240px"
+          style="width: 100px"
         >
           <el-option
             v-for="dict in statusOptions"
@@ -36,19 +54,11 @@
             :value="dict.dictValue"
           />
         </el-select>
-<!--        <el-select v-model="queryParams.status" placeholder="请选择'00':待处理01:处理中02:已处理" clearable size="small">-->
-<!--          <el-option label="请选择字典生成" value="" />-->
-<!--        </el-select>-->
+
       </el-form-item>
       <el-form-item>
         <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
-
-    <el-row :gutter="10" class="mb8">
-
-      <el-col :span="1.5">
         <el-button
           type="warning"
           icon="el-icon-download"
@@ -56,13 +66,17 @@
           @click="handleExport"
           v-hasPermi="['system:advise:export']"
         >导出</el-button>
-      </el-col>
+      </el-form-item>
+    </el-form>
+    <el-row :gutter="10" class="mb8">
 	  <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
     <el-table v-loading="loading" :data="adviseList" @selection-change="handleSelectionChange">
       <el-table-column label="date" align="center" prop="date" />
+      <el-table-column label="brand" align="center" prop="brand" />
       <el-table-column label="country" align="center" prop="country" />
+      <el-table-column label="model" align="center" prop="model" />
+      <el-table-column label="imei" align="center" prop="imei" />
       <el-table-column label="moduleBase" align="center" prop="moduleBase" :show-overflow-tooltip="true" />
       <el-table-column label="moduleSecond" align="center" prop="moduleSecond" :show-overflow-tooltip="true" />
       <el-table-column label="moduleThird" align="center" prop="moduleThird" :show-overflow-tooltip="true" />
@@ -105,16 +119,6 @@
     <!-- 添加或修改【请填写功能名称】对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-<!--        <el-form-item label="状态" prop="status">-->
-<!--          <el-radio-group v-model="form.status">-->
-<!--            <el-radio-->
-<!--              v-for="dict in statusOptions"-->
-<!--              :key="dict.dictValue"-->
-<!--              :label="dict.dictValue"-->
-<!--            >{{dict.dictLabel}}</el-radio>-->
-<!--          </el-radio-group>-->
-<!--        </el-form-item>-->
-
         <el-form-item label="Status">
           <el-radio v-model="form.status" :label="0">未处理</el-radio>
           <el-radio v-model="form.status" :label="1">处理中</el-radio>
@@ -171,6 +175,8 @@ export default {
         ip: null,
         date: null,
         country: null,
+        model: null,
+        brand: null,
         reserved: null,
         reserved1: null,
         status: null
@@ -187,6 +193,7 @@ export default {
     this.getDicts("advise_status").then(response => {
       this.statusOptions = response.data;
     });
+
     /** 国家,品牌,机型数据
      *  @flag '' 空为全部
      *  @type  0 空为全部
@@ -229,6 +236,8 @@ export default {
         ip: null,
         date: null,
         country: null,
+        model: null,
+        brand: null,
         reserved: null,
         reserved1: null,
         status:"0"
@@ -259,7 +268,6 @@ export default {
     // },
     /** 修改按钮操作 */
     handleUpdate(row) {
-
       this.reset();
       const id = row.id || this.ids
       getAdvise(id).then(response => {

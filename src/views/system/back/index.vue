@@ -1,8 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-
-
+      <el-form-item label="Brand" prop="brand">
+        <el-select v-model="queryParams.brand" filterable placeholder="请选择">
+          <el-option
+            v-for="item in informationObj.brandList"
+            :key="item.brandId"
+            :label="item.brandName"
+            :value="item.brandName"
+          ></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="Country" prop="country">
         <el-select v-model="queryParams.country" filterable placeholder="请选择">
           <el-option
@@ -13,6 +21,17 @@
           ></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="Model" prop="model">
+        <el-select v-model="queryParams.model" filterable placeholder="请选择" style="width: 150px">
+          <el-option
+            v-for="item in informationObj.modelsList"
+            :key="item.modelsId"
+            :label="item.modelsName"
+            :value="item.modelsName"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="Email" prop="email">
         <el-input
           v-model.trim="queryParams.email"
@@ -27,7 +46,7 @@
           placeholder="Status"
           clearable
           size="small"
-          style="width: 240px"
+          style="width: 100px"
         >
           <el-option
             v-for="dict in statusOptions"
@@ -40,10 +59,6 @@
       <el-form-item>
         <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
         <el-button
           type="warning"
           icon="el-icon-download"
@@ -51,7 +66,9 @@
           @click="handleExport"
           v-hasPermi="['system:back:export']"
         >导出</el-button>
-      </el-col>
+      </el-form-item>
+    </el-form>
+    <el-row :gutter="10" class="mb8">
 	  <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 <!--查看详情-->
@@ -63,8 +80,11 @@
       </template>
     </el-table-column>
       <el-table-column label="date" align="center" prop="date" :show-overflow-tooltip="true" />
+      <el-table-column label="brand" align="center" prop="brand" />
       <el-table-column label="channel" align="center" prop="channel" :show-overflow-tooltip="true" />
       <el-table-column label="country" align="center" prop="country" :show-overflow-tooltip="true" />
+      <el-table-column label="model" align="center" prop="model" :show-overflow-tooltip="true" />
+      <el-table-column label="imei" align="center" prop="imei" :show-overflow-tooltip="true" />
       <el-table-column label="moduleBase" align="center" prop="moduleBase" :show-overflow-tooltip="true" />
       <el-table-column label="moduleSecond" align="center" prop="moduleSecond" :show-overflow-tooltip="true" />
       <el-table-column label="moduleThird" align="center" prop="moduleThird" :show-overflow-tooltip="true" />
@@ -179,6 +199,8 @@ export default {
         email: null,
         ip: null,
         country: null,
+        brand: null,
+        model: null,
         moduleSecond: null,
         moduleThird: null,
         problem: null,
@@ -209,10 +231,10 @@ export default {
     });
     /** 国家,品牌,机型数据
      *  @flag '' 空为全部
-     *  @type  0 空为全部
+     *  @type  0 空为全部 1为权限内的
      * */
 
-    getListInformation('',0).then(res => {
+    getListInformation('',1).then(res => {
       this.informationObj = res.data
 
     }).catch(error => {
@@ -244,7 +266,10 @@ export default {
         date: null,
         email: null,
         ip: null,
+        brand: null,
         country: null,
+        imei: null,
+        model: null,
         moduleSecond: null,
         moduleThird: null,
         problem: null,
@@ -330,6 +355,9 @@ export default {
         id:row.id,
         ip:row.ip,
         status:row.status,
+        brand:row.brand,
+        model:row.model,
+        imei:row.imei
       }
 
       _this.dialog = true

@@ -3,7 +3,10 @@
     <el-card>
           <div class="text item">date:{{form.date}}</div>
           <div class="text item">channel:{{form.channel}}</div>
+          <div class="text item">brand:{{form.brand}}</div>
           <div class="text item">country:{{form.country}}</div>
+          <div class="text item">model:{{form.model}}</div>
+          <div class="text item">imei:{{form.imei}}</div>
           <div class="text item">moduleBase:{{form.moduleBase}}</div>
           <div class="text item">moduleSecond:{{form.moduleSecond}}</div>
           <div class="text item">moduleThird:{{form.moduleThird}}</div>
@@ -36,7 +39,10 @@
         form: {
           date:"",
           channel:"",
+          brand:"",
           country:"",
+          model:"",
+          imei:"",
           moduleBase:"",
           moduleSecond:"",
           moduleThird:"",

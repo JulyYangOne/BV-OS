@@ -13,3 +13,12 @@ export function getListInformation(val,type) {
     }
   })
 }
+
+// 查询销统列表
+export function totalList(query) {
+  return request({
+    url: '/system/statistics/totalList',
+    method: 'post',
+    params: query
+  })
+}
