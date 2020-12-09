@@ -18,7 +18,7 @@
     components: { report, detailList },
     data() {
       return {
-        activeName: 'first'
+        activeName: 'second'
       }
     },
     methods: {
@@ -26,7 +26,7 @@
         if (this.activeName === 'first') {
           this.$refs.detail.handleQuery()
         } else {
-          // this.$refs.qiNiu.crud.toQuery()
+          this.$refs.second.handleQuery()
         }
       }
     }

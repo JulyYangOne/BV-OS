@@ -61,10 +61,10 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
       this.setOptions(this.chartData)
     },
-    setOptions(chartData) {
+    setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: chartData.date_time,
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           boundaryGap: false,
           axisTick: {
             show: false
@@ -72,7 +72,7 @@ export default {
         },
         grid: {
           left: 10,
-          right: 30,
+          right: 10,
           bottom: 20,
           top: 30,
           containLabel: true
@@ -90,10 +90,10 @@ export default {
           }
         },
         legend: {
-          data: ['激活数']
+          data: ['expected', 'actual']
         },
         series: [{
-          name: '激活数', itemStyle: {
+          name: 'expected', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -104,31 +104,30 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: chartData.active_num,
+          data: expectedData,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
-        }
-        // {
-        //   name: 'actual',
-        //   smooth: true,
-        //   type: 'line',
-        //   itemStyle: {
-        //     normal: {
-        //       color: '#3888fa',
-        //       lineStyle: {
-        //         color: '#3888fa',
-        //         width: 2
-        //       },
-        //       areaStyle: {
-        //         color: '#f3f8ff'
-        //       }
-        //     }
-        //   },
-        //   data: chartData.active_num,
-        //   animationDuration: 2800,
-        //   animationEasing: 'quadraticOut'
-        // }
-        ]
+        },
+        {
+          name: 'actual',
+          smooth: true,
+          type: 'line',
+          itemStyle: {
+            normal: {
+              color: '#3888fa',
+              lineStyle: {
+                color: '#3888fa',
+                width: 2
+              },
+              areaStyle: {
+                color: '#f3f8ff'
+              }
+            }
+          },
+          data: actualData,
+          animationDuration: 2800,
+          animationEasing: 'quadraticOut'
+        }]
       })
     }
   }

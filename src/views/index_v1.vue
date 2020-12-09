@@ -2,32 +2,38 @@
   <div class="dashboard-editor-container">
 <!--    <panel-group @handleSetLineChartData="handleSetLineChartData" />-->
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData" />
+      <line-chart :chart-data="lineChartData_os" />
     </el-row>
 
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <raddar-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <pie-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <bar-chart />
-        </div>
-      </el-col>
-    </el-row>
+<!--    <el-row :gutter="32">-->
+<!--      <el-col :xs="24" :sm="24" :lg="8">-->
+<!--        <div class="chart-wrapper">-->
+<!--          <raddar-chart />-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--      <el-col :xs="24" :sm="24" :lg="8">-->
+<!--        <div class="chart-wrapper">-->
+<!--          <pie-chart />-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--      <el-col :xs="24" :sm="24" :lg="8">-->
+<!--        <div class="chart-wrapper">-->
+<!--          <bar-chart />-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
 
 
   </div>
 </template>
 
 <script>
+
+  import {totalList} from "@/api/OS/os";
+  const lineChartData_os = {
+    active_num: [],
+    date_time: []
+  }
 import PanelGroup from './dashboard/PanelGroup'
 import LineChart from './dashboard/LineChart'
 import RaddarChart from './dashboard/RaddarChart'
@@ -64,13 +70,47 @@ export default {
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
+      lineChartData: lineChartData.newVisitis,
+      /** 查询参数 */
+      queryParams:{
+        brand: null,
+        date: null,
+        country: null,
+        model: null,
+        years:new Date().getFullYear(),
+        type:'weeks'
+      },
+      // lineChartData_os:lineChartData_os
+      lineChartData_os:{
+        active_num: [],
+        date_time: []
+      }
     }
   },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
-    }
+    },
+    handleQuery() {
+      totalList(this.queryParams).then(res=>{
+        var obj = {
+          active_num:[],
+          date_time:[],
+        }
+        res.data.forEach((val)=>{
+          obj.active_num.push(val.active_num)
+          obj.date_time.push(val.date_time)
+        })
+
+        this.lineChartData_os = obj
+
+      }).catch(error=>{
+        console.log(error)
+      })
+    },
+  },
+  created() {
+    this.handleQuery()
   }
 }
 </script>

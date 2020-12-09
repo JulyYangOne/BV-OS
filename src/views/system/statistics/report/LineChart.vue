@@ -1,11 +1,12 @@
 <template>
-  <div :class="className" :style="{height:height,width:width}" />
+<!--  <div :class="className" :style="{height:height,width:width}" />-->
+  <div :class="className" style="width: 100%;height: 350px" />
 </template>
 
 <script>
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
-import resize from './mixins/resize'
+import resize from '@/views/dashboard/mixins/resize'
 
 export default {
   mixins: [resize],
@@ -14,14 +15,14 @@ export default {
       type: String,
       default: 'chart'
     },
-    width: {
-      type: String,
-      default: '100%'
-    },
-    height: {
-      type: String,
-      default: '350px'
-    },
+    // width: {
+    //   type: String,
+    //   default: '100%'
+    // },
+    // height: {
+    //   type: String,
+    //   default: '350px'
+    // },
     autoResize: {
       type: Boolean,
       default: true
@@ -40,6 +41,7 @@ export default {
     chartData: {
       deep: true,
       handler(val) {
+
         this.setOptions(val)
       }
     }
@@ -59,6 +61,8 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
+
+
       this.setOptions(this.chartData)
     },
     setOptions(chartData) {
@@ -91,6 +95,7 @@ export default {
         },
         legend: {
           data: ['激活数']
+
         },
         series: [{
           name: '激活数', itemStyle: {
@@ -107,7 +112,7 @@ export default {
           data: chartData.active_num,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
-        }
+        },
         // {
         //   name: 'actual',
         //   smooth: true,
@@ -124,9 +129,10 @@ export default {
         //       }
         //     }
         //   },
-        //   data: chartData.active_num,
+
+        //   data: actualData,
         //   animationDuration: 2800,
-        //   animationEasing: 'quadraticOut'
+          // animationEasing: 'quadraticOut'
         // }
         ]
       })
@@ -134,3 +140,9 @@ export default {
   }
 }
 </script>
+<style scoped="scoped">
+  .chart{
+    width: 100%;
+    height: 650px;
+  }
+</style>

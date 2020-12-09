@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true"  label-width="88px">
       <el-form-item label="Brand" prop="brand">
-        <el-select v-model="queryParams.brand" filterable placeholder="请选择" style="width: 100px">
+        <el-select v-model="queryParams.brand" filterable placeholder="请选择" style="width: 150px">
           <el-option
             v-for="item in informationObj.brandList"
             :key="item.brandId"
@@ -55,16 +55,29 @@
       <el-form-item>
         <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-
       </el-form-item>
     </el-form>
-  </div>
+    <div>
+      <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+        <line-chart :chart-data="lineChartData"/>
+      </el-row>
+   </div>
+    </div>
 </template>
 
 <script>
+  import LineChart from './LineChart'
   import { getListInformation , totalList} from "@/api/OS/os";
+  const lineChartData = {
+      active_num: [],
+      date_time: []
+  }
+
   export default {
     name: 'index',
+    components:{
+      LineChart
+    },
     data(){
       return {
         /** 查询参数 */
@@ -73,8 +86,8 @@
           date: null,
           country: null,
           model: null,
-          years:null,
-          type:null
+          years:new Date().getFullYear(),
+          type:'weeks'
         },
         TypeOption:[
           {
@@ -87,28 +100,27 @@
           }
         ],
         YearsOption:[
-          {
-            value:'2020',
-            label:"2020"
-          },
-          {
-            value:'2021',
-            label:"2021"
-          }
         ],
         //品牌 国家 机型
         informationObj:{
 
         },
+        lineChartData: lineChartData
       }
     },
     methods:{
       /** 查询按钮操作 */
       handleQuery() {
-
-        console.log(this.queryParams)
         totalList(this.queryParams).then(res=>{
-          console.log(res)
+          var obj = {
+            active_num:[],
+            date_time:[],
+          }
+          res.data.forEach((val)=>{
+            obj.active_num.push(val.active_num)
+            obj.date_time.push(val.date_time)
+          })
+          this.lineChartData = obj
         }).catch(error=>{
           console.log(error)
         })
@@ -116,6 +128,8 @@
       /** 重置按钮操作 */
       resetQuery() {
         this.resetForm("queryForm");
+        this.queryParams.years = new Date().getFullYear(),
+        this.queryParams.type = 'weeks'
         this.handleQuery();
       },
     },
@@ -126,11 +140,26 @@
        *  @type  0 空为全部; 1 为权限范围内的
        * */
 
+      this.YearsOption=[]
+
+
+      var obj = {
+
+      }
+      var nowYear = new Date().getFullYear()
+
+      for(var i =2020;i <= nowYear ; i++) {
+        obj.value = i
+        obj.label = i
+        this.YearsOption.push(obj)
+        obj = {}
+      }
       getListInformation('',1).then(res => {
         this.informationObj = res.data
       }).catch(error => {
         console.log(error)
       })
+      this.handleQuery()
 
     },
   }
