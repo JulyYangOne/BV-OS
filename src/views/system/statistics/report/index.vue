@@ -148,7 +148,7 @@
       }
       var nowYear = new Date().getFullYear()
 
-      for(var i =2020;i <= nowYear ; i++) {
+      for(var i = 2020;i <= nowYear ; i++) {
         obj.value = i
         obj.label = i
         this.YearsOption.push(obj)
