@@ -38,9 +38,6 @@
             :value="item.modelsName"
           ></el-option>
         </el-select>
-
-
-
       </el-form-item>
       <el-form-item>
         <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -67,18 +64,18 @@
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="date" align="center" prop="date" :show-overflow-tooltip="true" />
-      <el-table-column label="brand" align="center" prop="brand" :show-overflow-tooltip="true" />
-      <el-table-column label="country" align="center" prop="country" :show-overflow-tooltip="true" />
-      <el-table-column label="areaVersion" align="center" prop="areaVersion" :show-overflow-tooltip="true" />
-      <el-table-column label="id" align="center" prop="id" :show-overflow-tooltip="true" />
+      <el-table-column label="日期" align="center" prop="date" :show-overflow-tooltip="true" />
+      <el-table-column label="品牌" align="center" prop="brand" :show-overflow-tooltip="true" />
+      <el-table-column label="国家" align="center" prop="country" :show-overflow-tooltip="true" />
+      <el-table-column label="机型" align="center" prop="model" :show-overflow-tooltip="true" />
       <el-table-column label="imei" align="center" prop="imei" :show-overflow-tooltip="true" />
-      <el-table-column label="imsi" align="center" prop="imsi" :show-overflow-tooltip="true" />
-      <el-table-column label="ipAddress" align="center" prop="ipAddress" :show-overflow-tooltip="true" />
       <el-table-column label="meid" align="center" prop="meid" :show-overflow-tooltip="true" />
-      <el-table-column label="model" align="center" prop="model" :show-overflow-tooltip="true" />
-      <el-table-column label="osVersion" align="center" prop="osVersion" :show-overflow-tooltip="true" />
-      <el-table-column label="romVersion" align="center" prop="romVersion" :show-overflow-tooltip="true" />
+      <el-table-column label="imsi" align="center" prop="imsi" :show-overflow-tooltip="true" />
+      <el-table-column label="区域品牌" align="center" prop="areaVersion" :show-overflow-tooltip="true" />
+<!--      <el-table-column label="id" align="center" prop="id" :show-overflow-tooltip="true" />-->
+<!--      <el-table-column label="ip地址" align="center" prop="ipAddress" :show-overflow-tooltip="true" />-->
+      <el-table-column label="系统版本" align="center" prop="osVersion" :show-overflow-tooltip="true" />
+      <el-table-column label="手机版本" align="center" prop="romVersion" :show-overflow-tooltip="true" />
       <el-table-column label="操作" width="200" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button

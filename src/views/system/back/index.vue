@@ -79,22 +79,22 @@
         <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
       </template>
     </el-table-column>
-      <el-table-column label="date" align="center" prop="date" :show-overflow-tooltip="true" />
-      <el-table-column label="brand" align="center" prop="brand" />
-      <el-table-column label="channel" align="center" prop="channel" :show-overflow-tooltip="true" />
-      <el-table-column label="country" align="center" prop="country" :show-overflow-tooltip="true" />
-      <el-table-column label="model" align="center" prop="model" :show-overflow-tooltip="true" />
+      <el-table-column label="日期" align="center" prop="date" :show-overflow-tooltip="true" />
+      <el-table-column label="品牌" align="center" prop="brand" />
+      <el-table-column label="国家" align="center" prop="country" :show-overflow-tooltip="true" />
+      <el-table-column label="购买渠道" align="center" prop="channel" :show-overflow-tooltip="true" />
+      <el-table-column label="店铺名称" align="center" prop="shopName" :show-overflow-tooltip="true" />
+      <el-table-column label="订单号" align="center" prop="orderNumber" :show-overflow-tooltip="true" />
+      <el-table-column label="机型" align="center" prop="model" :show-overflow-tooltip="true" />
       <el-table-column label="imei" align="center" prop="imei" :show-overflow-tooltip="true" />
-      <el-table-column label="moduleBase" align="center" prop="moduleBase" :show-overflow-tooltip="true" />
-      <el-table-column label="moduleSecond" align="center" prop="moduleSecond" :show-overflow-tooltip="true" />
-      <el-table-column label="moduleThird" align="center" prop="moduleThird" :show-overflow-tooltip="true" />
-      <el-table-column label="orderNumber" align="center" prop="orderNumber" :show-overflow-tooltip="true" />
-      <el-table-column label="problem" align="center" prop="problem" :show-overflow-tooltip="true" />
-      <el-table-column label="type" align="center" prop="type" :show-overflow-tooltip="true" />
-      <el-table-column label="shopName" align="center" prop="shopName" :show-overflow-tooltip="true" />
-      <el-table-column label="describeProblem" align="center" prop="describeProblem" :show-overflow-tooltip="true" />
-      <el-table-column label="email" align="center" prop="email" :show-overflow-tooltip="true" />
-      <el-table-column label="status" align="center" >
+      <el-table-column label="种类" align="center" prop="type" :show-overflow-tooltip="true" />
+      <el-table-column label="问题" align="center" prop="problem" :show-overflow-tooltip="true" />
+      <el-table-column label="一级模块" align="center" prop="moduleBase" :show-overflow-tooltip="true" />
+      <el-table-column label="二级模块" align="center" prop="moduleSecond" :show-overflow-tooltip="true" />
+      <el-table-column label="三级模块" align="center" prop="moduleThird" :show-overflow-tooltip="true" />
+      <el-table-column label="问题描述" align="center" prop="describeProblem" :show-overflow-tooltip="true" />
+      <el-table-column label="邮箱" align="center" prop="email" :show-overflow-tooltip="true" />
+      <el-table-column label="状态" align="center" >
         <template slot-scope="scope">
           <span :class="scope.row.status==0?'gray':scope.row.status==1?'red':'green'">  {{scope.row.status==0?'未处理':scope.row.status==1?'处理中':'已处理'}}</span>
         </template>

@@ -139,13 +139,8 @@
        *  @flag '' 空为全部 1.国家 2.品牌 3.机型
        *  @type  0 空为全部; 1 为权限范围内的
        * */
-
       this.YearsOption=[]
-
-
-      var obj = {
-
-      }
+      var obj = {}
       var nowYear = new Date().getFullYear()
 
       for(var i = 2020;i <= nowYear ; i++) {

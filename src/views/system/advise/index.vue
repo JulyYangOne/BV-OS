@@ -72,18 +72,18 @@
 	  <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
     <el-table v-loading="loading" :data="adviseList" @selection-change="handleSelectionChange">
-      <el-table-column label="date" align="center" prop="date" />
-      <el-table-column label="brand" align="center" prop="brand" />
-      <el-table-column label="country" align="center" prop="country" />
-      <el-table-column label="model" align="center" prop="model" />
+      <el-table-column label="日期" align="center" prop="date" />
+      <el-table-column label="品牌" align="center" prop="brand" />
+      <el-table-column label="国家" align="center" prop="country" />
+      <el-table-column label="机型" align="center" prop="model" />
       <el-table-column label="imei" align="center" prop="imei" />
-      <el-table-column label="moduleBase" align="center" prop="moduleBase" :show-overflow-tooltip="true" />
-      <el-table-column label="moduleSecond" align="center" prop="moduleSecond" :show-overflow-tooltip="true" />
-      <el-table-column label="moduleThird" align="center" prop="moduleThird" :show-overflow-tooltip="true" />
-      <el-table-column label="describeProblem" align="center" prop="describeProblem" :show-overflow-tooltip="true" />
-      <el-table-column label="email" align="center" prop="email" :show-overflow-tooltip="true" />
+      <el-table-column label="一级模块" align="center" prop="moduleBase" :show-overflow-tooltip="true" />
+      <el-table-column label="二级模块" align="center" prop="moduleSecond" :show-overflow-tooltip="true" />
+      <el-table-column label="三级模块" align="center" prop="moduleThird" :show-overflow-tooltip="true" />
+      <el-table-column label="问题描述" align="center" prop="describeProblem" :show-overflow-tooltip="true" />
+      <el-table-column label="邮箱" align="center" prop="email" :show-overflow-tooltip="true" />
       <el-table-column label="ip" align="center" prop="ip" />
-      <el-table-column label="status" align="center"  >
+      <el-table-column label="状态" align="center"  >
         <template slot-scope="scope">
           <span :class="scope.row.status==0?'gray':scope.row.status==1?'red':'green'">  {{scope.row.status==0?'未处理':scope.row.status==1?'处理中':'已处理'}}</span>
         </template>

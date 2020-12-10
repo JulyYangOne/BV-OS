@@ -1,24 +1,24 @@
 <template>
   <el-dialog :append-to-body="true" :close-on-click-modal="false" :before-close="cancel" :visible.sync="dialog" width="700px">
     <el-card>
-          <div class="text item">date:{{form.date}}</div>
-          <div class="text item">channel:{{form.channel}}</div>
-          <div class="text item">brand:{{form.brand}}</div>
-          <div class="text item">country:{{form.country}}</div>
-          <div class="text item">model:{{form.model}}</div>
+          <div class="text item">日期:{{form.date}}</div>
+          <div class="text item">品牌:{{form.brand}}</div>
+          <div class="text item">国家:{{form.country}}</div>
+          <div class="text item">购买渠道:{{form.channel}}</div>
+          <div class="text item">店铺名称:{{form.shopName}}</div>
+          <div class="text item">订单号:{{form.orderNumber}}</div>
+          <div class="text item">机型:{{form.model}}</div>
           <div class="text item">imei:{{form.imei}}</div>
-          <div class="text item">moduleBase:{{form.moduleBase}}</div>
-          <div class="text item">moduleSecond:{{form.moduleSecond}}</div>
-          <div class="text item">moduleThird:{{form.moduleThird}}</div>
-          <div class="text item">orderNumber:{{form.orderNumber}}</div>
-          <div class="text item">problem:{{form.problem}}</div>
-          <div class="text item">type:{{form.type}}</div>
-          <div class="text item">shopName:{{form.shopName}}</div>
-          <div class="text item">describeProblem: <br>{{form.describeProblem}}</div>
+          <div class="text item">种类:{{form.type}}</div>
+          <div class="text item">问题:{{form.problem}}</div>
+          <div class="text item">一级模块:{{form.moduleBase}}</div>
+          <div class="text item">二级模块:{{form.moduleSecond}}</div>
+          <div class="text item">三级模块:{{form.moduleThird}}</div>
+          <div class="text item">问题描述: <br>{{form.describeProblem}}</div>
+          <div class="text item">邮箱:{{form.email}}</div>
+          <div class="text item">状态:{{form.status==0?'未处理':form.status==1?'处理中':'已处理'}}</div>
           <div class="text item">id:{{form.id}}</div>
           <div class="text item">ip:{{form.ip}}</div>
-<!--          <div class="text item">Status:{{form.status}}</div>-->
-          <div class="text item">Status:{{form.status==0?'未处理':form.status==1?'处理中':'已处理'}}</div>
       <!--          <div class="text item">reserved:{{form.reserved}}</div>-->
       <!--          <div class="text item">reserved1:{{form.reserved1}}</div>-->
 
