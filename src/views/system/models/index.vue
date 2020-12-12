@@ -74,7 +74,7 @@
       </el-table-column>
 <!--      <el-table-column label="机型ID" align="center" prop="modelsId" />-->
       <el-table-column label="机型编码" align="center" prop="modelsCode" />
-      <el-table-column label="机型名称" align="center" prop="modelsdName" />
+      <el-table-column label="机型名称" align="center" prop="modelsName" />
       <el-table-column label="显示顺序" align="center" prop="modelsSort" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -111,8 +111,8 @@
         <el-form-item label="机型编码" prop="modelsCode">
           <el-input v-model="form.modelsCode" placeholder="请输入机型编码" />
         </el-form-item>
-        <el-form-item label="机型名称" prop="modelsdName">
-          <el-input v-model="form.modelsdName" placeholder="请输入机型名称" />
+        <el-form-item label="机型名称" prop="modelsName">
+          <el-input v-model="form.modelsName" placeholder="请输入机型名称" />
         </el-form-item>
         <el-form-item label="显示顺序" prop="modelsSort">
           <el-input v-model="form.modelsSort" placeholder="请输入显示顺序" />
@@ -159,7 +159,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         modelsCode: null,
-        modelsdName: null,
+        modelsName: null,
         modelsSort: null,
         modelsReserved1: null,
         modelsReserved2: null,
@@ -198,7 +198,7 @@ export default {
       this.form = {
         modelsId: null,
         modelsCode: null,
-        modelsdName: null,
+        modelsName: null,
         modelsSort: null,
         createBy: null,
         createTime: null,

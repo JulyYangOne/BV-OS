@@ -78,7 +78,7 @@ export default {
         country: null,
         model: null,
         years:new Date().getFullYear(),
-        type:'weeks'
+        type:'thirty'
       },
       // lineChartData_os:lineChartData_os
       lineChartData_os:{

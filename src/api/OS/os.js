@@ -22,3 +22,17 @@ export function totalList(data) {
     data
   })
 }
+
+// 按国家查询
+export function CountryList(data) {
+  return request({
+    url: '/system/statistics/countryList',
+    method: 'post',
+    data:{
+      model:data.model,
+      brand:data.brand,
+      startTime:data.date[0],
+      endTime:data.date[1]
+    }
+  })
+}

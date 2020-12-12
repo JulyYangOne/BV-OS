@@ -198,7 +198,7 @@ export default {
      *  @flag '' 空为全部
      *  @type  0 空为全部
      * */
-    getListInformation('',0).then(res => {
+    getListInformation('',1).then(res => {
       this.informationObj = res.data
 
     }).catch(error => {
