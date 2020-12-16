@@ -2,6 +2,9 @@ import request from '@/utils/request'
 
 // 查询【请填写功能名称】列表
 export function listAdvise(query) {
+  query.country =  query.country  == 'all' ? null: query.country
+  query.model =  query.model  == 'all' ? null: query.model
+  query.brand =  query.brand  == 'all' ? null: query.brand
   return request({
     url: '/system/advise/list',
     method: 'get',
@@ -45,6 +48,9 @@ export function delAdvise(id) {
 
 // 导出【请填写功能名称】
 export function exportAdvise(query) {
+  query.country =  query.country  == 'all'?null: query.country
+  query.model =  query.model  == 'all'?null: query.model
+  query.brand =  query.brand  == 'all'?null: query.brand
   return request({
     url: '/system/advise/export',
     method: 'get',

@@ -16,6 +16,10 @@ export function getListInformation(val,type) {
 
 // 查询销统列表
 export function totalList(data) {
+  data.country =  data.country  == 'all'?null: data.country
+  data.model =  data.model  == 'all'?null: data.model
+  data.brand =  data.brand  == 'all'?null: data.brand
+
   return request({
     url: '/system/statistics/totalList',
     method: 'post',
@@ -25,6 +29,9 @@ export function totalList(data) {
 
 // 按国家查询
 export function CountryList(data) {
+  data.country =  data.country  == 'all'?null: data.country
+  data.model =  data.model  == 'all'?null: data.model
+  data.brand =  data.brand  == 'all'?null: data.brand
   return request({
     url: '/system/statistics/countryList',
     method: 'post',

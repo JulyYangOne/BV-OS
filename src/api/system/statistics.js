@@ -2,6 +2,9 @@ import request from '@/utils/request'
 
 // 查询销统列表
 export function listStatistics(query) {
+  query.country =  query.country  == 'all'?null: query.country
+  query.model =  query.model  == 'all'?null: query.model
+  query.brand =  query.brand  == 'all'?null: query.brand
   return request({
     url: '/system/statistics/list',
     method: 'get',
@@ -45,6 +48,9 @@ export function delStatistics(id) {
 
 // 导出销统
 export function exportStatistics(query) {
+  query.country =  query.country  == 'all'?null: query.country
+  query.model =  query.model  == 'all'?null: query.model
+  query.brand =  query.brand  == 'all'?null: query.brand
   return request({
     url: '/system/statistics/export',
     method: 'get',

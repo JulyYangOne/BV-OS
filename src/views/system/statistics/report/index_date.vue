@@ -82,10 +82,10 @@
       return {
         /** 查询参数 */
         queryParams:{
-          brand: null,
+          brand: 'all',
           date: null,
-          country: null,
-          model: null,
+          country: 'all',
+          model: 'all',
           years:new Date().getFullYear(),
           type:'thirty'
         },
@@ -137,7 +137,10 @@
       resetQuery() {
         this.resetForm("queryForm");
         this.queryParams.years = new Date().getFullYear(),
-        this.queryParams.type = 'weeks'
+        this.queryParams.type = 'thirty'
+        this.queryParams.country = 'all'
+        this.queryParams.model = 'all'
+        this.queryParams.brand = 'all'
         this.handleQuery();
       },
     },
@@ -158,8 +161,13 @@
         obj = {}
       }
       getListInformation('',1).then(res => {
-        debugger
+
         this.informationObj = res.data
+        // this.$nextTick(()=> {
+        //   this.informationObj.modelsList.unshift({modelsName: "全部机型", modelsId: "0"})
+        //   this.informationObj.countryList.unshift({countryName: "全部国家", countryId: "0"})
+        //   this.informationObj.brandList.unshift({brandName: "全部品牌", brandId: "0"})
+        // })
       }).catch(error => {
         console.log(error)
       })

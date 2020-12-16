@@ -2,6 +2,12 @@ import request from '@/utils/request'
 
 // 查询用户反馈列表
 export function listBack(query) {
+
+
+  query.country =  query.country  == 'all'?null: query.country
+  query.model =  query.model  == 'all'?null: query.model
+  query.brand =  query.brand  == 'all'?null: query.brand
+
   return request({
     url: '/system/back/list',
     method: 'get',
@@ -45,6 +51,10 @@ export function delBack(id) {
 
 // 导出用户反馈
 export function exportBack(query) {
+  query.country =  query.country  == 'all'?null: query.country
+  query.model =  query.model  == 'all'?null: query.model
+  query.brand =  query.brand  == 'all'?null: query.brand
+
   return request({
     url: '/system/back/export',
     method: 'get',
