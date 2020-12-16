@@ -68,11 +68,15 @@ export default {
           boundaryGap: false,
           axisTick: {
             show: false
-          }
+          },
+          axisLabel:{
+            interval:0,
+            rotate:40
+          },
         },
         grid: {
-          left: 10,
-          right: 30,
+          left: 50,
+          right: 50,
           bottom: 20,
           top: 30,
           containLabel: true

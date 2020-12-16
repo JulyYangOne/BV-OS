@@ -72,11 +72,15 @@ export default {
           boundaryGap: false,
           axisTick: {
             show: false
-          }
+          },
+          axisLabel:{
+            interval:0,
+            rotate:40
+          },
         },
         grid: {
-          left: 10,
-          right: 30,
+          left: 50,
+          right:50,
           bottom: 20,
           top: 30,
           containLabel: true
@@ -87,6 +91,18 @@ export default {
             type: 'cross'
           },
           padding: [5, 10]
+        },
+        toolbox: {
+          show: true,
+          orient: 'vertical',
+          left: 'right',
+          top: 'left',
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
         },
         yAxis: {
           axisTick: {
