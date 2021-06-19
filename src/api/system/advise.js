@@ -32,7 +32,9 @@ export function addAdvise(data) {
 // 修改【请填写功能名称】
 export function updateAdvise(data) {
   return request({
-    url: '/system/advise',
+    // url: '/system/advise', /*修改状态的接口*/
+    url: '/system/advise/reply/advise', /*修改状态及回复*/
+
     method: 'put',
     data: data
   })

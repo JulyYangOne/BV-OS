@@ -35,7 +35,8 @@ export function addBack(data) {
 // 修改用户反馈
 export function updateBack(data) {
   return request({
-    url: '/system/back',
+    // url: '/system/back',
+    url: '/system/back/reply/feedBack',
     method: 'put',
     data: data
   })

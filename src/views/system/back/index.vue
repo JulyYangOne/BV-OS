@@ -94,13 +94,13 @@
       <el-table-column label="三级模块" align="center" prop="moduleThird" :show-overflow-tooltip="true" />
       <el-table-column label="问题描述" align="center" prop="describeProblem" :show-overflow-tooltip="true" />
       <el-table-column label="邮箱" align="center" prop="email"  />
-      <el-table-column label="状态" align="center" fixed="right" >
+      <el-table-column label="状态" align="center" fixed="right" width="70" >
         <template slot-scope="scope">
           <span :class="scope.row.status==0?'gray':scope.row.status==1?'red':'green'">  {{scope.row.status==0?'未处理':scope.row.status==1?'处理中':'已处理'}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="200" align="center" fixed="right">
+      <el-table-column label="操作" width="130" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -108,13 +108,13 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:back:edit']"
-          >修改</el-button>
+          ></el-button>
           <el-button
             size="text"
             type="primary"
             @click="handleView(scope.row)"
           >
-            查看详情
+            Detail
           </el-button>
         </template>
       </el-table-column>
@@ -145,6 +145,9 @@
           <el-radio v-model="form.status" :label="0">未处理</el-radio>
           <el-radio v-model="form.status" :label="1">处理中</el-radio>
           <el-radio v-model="form.status" :label="2">已处理</el-radio>
+        </el-form-item>
+        <el-form-item label="Reply">
+          <el-input type="textarea" v-model="form.feedBack" row="4"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -209,7 +212,8 @@ export default {
         orderNumber: null,
         reserved: null,
         reserved1: null,
-        status: null
+        status: null,
+        feedBack: null,
       },
       // 表单参数
       form: {},
@@ -278,7 +282,8 @@ export default {
         orderNumber: null,
         reserved: null,
         reserved1: null,
-        status: 0
+        status: 0,
+        feedBack: null,
       };
       this.resetForm("form");
     },
@@ -357,7 +362,8 @@ export default {
         status:row.status,
         brand:row.brand,
         model:row.model,
-        imei:row.imei
+        imei:row.imei,
+        feedBack:row.feedBack
       }
 
       _this.dialog = true

@@ -80,15 +80,15 @@
       <el-table-column label="一级模块" align="center" prop="moduleBase"  />
       <el-table-column label="二级模块" align="center" prop="moduleSecond"  />
       <el-table-column label="三级模块" align="center" prop="moduleThird"  />
-      <el-table-column label="问题描述" align="center" prop="describeProblem"  />
+      <el-table-column label="问题描述" align="center" prop="describeProblem" :show-overflow-tooltip="true" />
       <el-table-column label="邮箱" align="center" prop="email"  />
       <el-table-column label="ip" align="center" prop="ip" />
-      <el-table-column label="状态" align="center" fixed="right" >
+      <el-table-column label="状态" align="center" fixed="right" width="70" >
         <template slot-scope="scope">
           <span :class="scope.row.status==0?'gray':scope.row.status==1?'red':'green'">  {{scope.row.status==0?'未处理':scope.row.status==1?'处理中':'已处理'}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200" align="center" fixed="right">
+      <el-table-column label="操作" width="70" align="center" fixed="right">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -123,6 +123,9 @@
           <el-radio v-model="form.status" :label="0">未处理</el-radio>
           <el-radio v-model="form.status" :label="1">处理中</el-radio>
           <el-radio v-model="form.status" :label="2">已处理</el-radio>
+        </el-form-item>
+        <el-form-item label="Reply">
+          <el-input type="textarea" v-model="form.adviseBack" row="4"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -179,7 +182,9 @@ export default {
         brand: null,
         reserved: null,
         reserved1: null,
-        status: null
+        status: null,
+        sortName: 'date', //字段名称
+        sortOrder: 'desc', // asc 或者 desc
       },
       // 表单参数
       form: {},
@@ -240,7 +245,8 @@ export default {
         brand: null,
         reserved: null,
         reserved1: null,
-        status:"0"
+        status:"0",
+        adviseBack:""
       };
       this.resetForm("form");
     },

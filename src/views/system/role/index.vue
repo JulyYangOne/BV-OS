@@ -313,7 +313,9 @@ export default {
         pageSize: 10,
         roleName: undefined,
         roleKey: undefined,
-        status: undefined
+        status: undefined,
+        sortName: 'dataScope', //字段名称
+        sortOrder: 'asc', // asc 或者 desc
       },
       // 表单参数
       form: {},

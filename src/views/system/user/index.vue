@@ -458,7 +458,9 @@ export default {
         userName: undefined,
         phonenumber: undefined,
         status: undefined,
-        deptId: undefined
+        deptId: undefined,
+        sortName: 'id', //字段名称
+        sortOrder: 'desc', // asc 或者 desc
       },
       // 表单校验
       rules: {

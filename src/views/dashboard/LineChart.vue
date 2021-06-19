@@ -97,19 +97,25 @@ export default {
           data: ['激活数']
         },
         series: [{
-          name: '激活数', itemStyle: {
+          name: '激活数',
+          itemStyle: {
             normal: {
-              color: '#FF005A',
+              color: '#4785FF',
               lineStyle: {
                 color: '#FF005A',
                 width: 2
               }
             }
           },
+          label: {
+            show: true,
+            position: 'top',
+            color:'black'
+          },
           smooth: true,
-          type: 'line',
+          type: 'bar',
           data: chartData.active_num,
-          animationDuration: 2800,
+          animationDuration: 1000,
           animationEasing: 'cubicInOut'
         }
         // {

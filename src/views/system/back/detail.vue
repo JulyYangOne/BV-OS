@@ -19,6 +19,7 @@
           <div class="text item">状态:{{form.status==0?'未处理':form.status==1?'处理中':'已处理'}}</div>
           <div class="text item">id:{{form.id}}</div>
           <div class="text item">ip:{{form.ip}}</div>
+          <div class="text item" style="color: red">feedBack:{{form.feedBack}}</div>
       <!--          <div class="text item">reserved:{{form.reserved}}</div>-->
       <!--          <div class="text item">reserved1:{{form.reserved1}}</div>-->
 

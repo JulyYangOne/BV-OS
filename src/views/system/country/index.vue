@@ -168,7 +168,9 @@ export default {
         countryReserved3: null,
         countryReserved4: null,
         countryReserved5: null,
-        countryReserved6: null
+        countryReserved6: null,
+     sortName: 'id', //字段名称
+       sortOrder: 'asc', // asc 或者 desc
       },
       // 表单参数
       form: {},
